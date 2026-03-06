@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice7</title>
+</head>
+<body>
+    <script>
+      let nomProduit = "Clavier mécanique"
+let prix = 89.99
+let quantite = 3
+let codePromo = null
+let reductionPourcentage = 10
+let estMembre = true
+let soldeCompte = 250
+
+
+let sousTotal = prix * quantite
+console.log("Sous-total:", sousTotal)
+
+
+let reduction = 0
+
+if (codePromo !== null && estMembre === true) {
+    reduction = sousTotal * reductionPourcentage / 100
+}
+
+console.log("Réduction:", reduction)
+
+
+let total = sousTotal - reduction
+console.log("Total final:", total)
+
+
+let statut = ""
+
+if (soldeCompte >= total) {
+    statut = "Paiement accepté"
+} else {
+    statut = "Solde insuffisant"
+}
+
+console.log("Statut:", statut)
+
+let nouveauSolde = soldeCompte
+
+if (statut === "Paiement accepté") {
+    nouveauSolde = soldeCompte - total
+    console.log("Nouveau solde:", nouveauSolde)
+}
+
+console.log("===== RÉCAPITULATIF =====")
+console.log("Produit   :", nomProduit)
+console.log("Quantité  :", quantite)
+console.log("Prix unit.:", prix, "MAD")
+console.log("Sous-total:", sousTotal, "MAD")
+console.log("Réduction :", reduction, "MAD")
+console.log("Total     :", total, "MAD")
+console.log("Statut    :", statut)
+console.log("Solde     :", nouveauSolde, "MAD")
+console.log("=========================")
+    </script>
+</body>
+</html>
