@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice 4</title>
+</head>
+<body>
+    <script>
+        let notes = [12, 7, 18, 5, 14, 9, 20, 3, 11, 16];
+
+let somme = 0;
+let max = notes[0];
+let min = notes[0];
+
+let passable = 0;
+let assezBien = 0;
+let bien = 0;
+let tresBien = 0;
+let excellent = 0;
+let insuffisant = 0;
+
+let reussite = 0;
+
+for (let i = 0; i < notes.length; i++) {
+
+    let note = notes[i];
+
+    somme += note;
+
+    if (note > max) {
+        max = note;
+    }
+
+    if (note < min) {
+        min = note;
+    }
+
+    if (note < 10) {
+        insuffisant++;
+    }
+    else if (note <= 11) {
+        passable++;
+    }
+    else if (note <= 13) {
+        assezBien++;
+    }
+    else if (note <= 15) {
+        bien++;
+    }
+    else if (note <= 17) {
+        tresBien++;
+    }
+    else {
+        excellent++;
+    }
+
+    if (note >= 10) {
+        reussite++;
+    }
+}
+
+let moyenne = somme / notes.length;
+
+console.log("Moyenne :", moyenne);
+console.log("Note maximale :", max);
+console.log("Note minimale :", min);
+
+console.log("Insuffisant :", insuffisant);
+console.log("Passable :", passable);
+console.log("Assez Bien :", assezBien);
+console.log("Bien :", bien);
+console.log("Très Bien :", tresBien);
+console.log("Excellent :", excellent);
+
+if (reussite > notes.length / 2) {
+    console.log("La classe est en réussite");
+} else {
+    console.log("La classe est en difficulté");
+}
+    </script>
+</body>
+</html>

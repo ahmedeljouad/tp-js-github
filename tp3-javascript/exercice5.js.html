@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice 5</title>
+</head>
+<body>
+    <script>
+        function convertirSecondes(secondes) {
+
+    let jours = Math.floor(secondes / 86400);
+    secondes = secondes % 86400;
+
+    let heures = Math.floor(secondes / 3600);
+    secondes = secondes % 3600;
+
+    let minutes = Math.floor(secondes / 60);
+    secondes = secondes % 60;
+
+    if (jours > 0) {
+        console.log(jours + " jour(s), " + heures + " heure(s), " + minutes + " minute(s) et " + secondes + " seconde(s)");
+    }
+    else if (heures > 0) {
+        console.log(heures + " heure(s), " + minutes + " minute(s) et " + secondes + " seconde(s)");
+    }
+    else if (minutes > 0) {
+        console.log(minutes + " minute(s) et " + secondes + " seconde(s)");
+    }
+    else {
+        console.log(secondes + " seconde(s)");
+    }
+}
+
+// tests
+convertirSecondes(45);
+convertirSecondes(130);
+convertirSecondes(3725);
+convertirSecondes(90061);
+convertirSecondes(172800);
+    </script>
+</body>
+</html>

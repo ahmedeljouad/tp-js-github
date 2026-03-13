@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice 2</title>
+</head>
+<body>
+    <script>
+        
+let salaireBrut = 2800;
+let anciennete = 4;
+let tempsPartiel = false;
+
+let prime = 0;
+
+
+if (anciennete < 2) {
+    prime = 0;
+} 
+else if (anciennete <= 5) {
+    prime = 100;
+} 
+else {
+    prime = 250;
+}
+
+let baseCalcul = salaireBrut + prime;
+
+if (tempsPartiel === true) {
+    baseCalcul = baseCalcul / 2;
+}
+
+let cotisations = 0;
+
+if (baseCalcul <= 1500) {
+    cotisations = baseCalcul * 0.10;
+}
+else if (baseCalcul <= 3000) {
+    cotisations = (1500 * 0.10) + ((baseCalcul - 1500) * 0.20);
+}
+else {
+    cotisations = (1500 * 0.10) + (1500 * 0.20) + ((baseCalcul - 3000) * 0.30);
+}
+
+let salaireNet = baseCalcul - cotisations;
+
+console.log("Salaire brut :", salaireBrut);
+console.log("Prime :", prime);
+console.log("Base de calcul :", baseCalcul);
+console.log("Cotisations totales :", cotisations);
+console.log("Salaire net final :", salaireNet);
+    </script>
+</body>
+</html>

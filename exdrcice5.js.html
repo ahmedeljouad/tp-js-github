@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TP JAVASCRIPT</title>
+</head>
+<body>
+
+    <h1>Ma fiche de présentation</h1>
+
+    <p id="nomComplet"></p>
+    <p id="age"></p>
+    <p id="ville"></p>
+    <p id="presentation"></p>
+
+    <script>
+        // Déclaration des variables
+        let prenom = "Ahmed";
+        let nom = "El jouad";
+        let age = 19;
+        let ville = "Marrakech";
+
+        // Affichage du prénom et nom
+        document.getElementById("nomComplet").innerHTML = "Prénom NOM : " + prenom + " " + nom;
+
+        // Affichage de l'âge
+        document.getElementById("age").innerHTML = "Âge : " + age + " ans";
+
+        // Affichage de la ville
+        document.getElementById("ville").innerHTML = "Ville : " + ville;
+
+        // Phrase complète
+        document.getElementById("presentation").innerHTML =
+            "Je m'appelle " + prenom + " " + nom + ", j'ai " + age +
+            " ans et j'habite à " + ville + ".";
+
+        // Changer dynamiquement le titre
+        document.title = "Fiche de " + prenom;
+
+    </script>
+
+</body>
+</html>
