@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercice 1</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      button {
+        margin: 10px 5px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      #sortie {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #e9ecef;
+        border-radius: 5px;
+        font-family: monospace;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="titre">Bienvenue sur ma page</h1>
+    <p id="intro">Ceci est le texte d'introduction.</p>
+    <button id="btnModifier">Modifier le contenu</button>
+    <button id="btnAfficher">Afficher outerHTML</button>
+    <div id="sortie"></div>
+    <script>
+      document.getElementById('btnModifier').addEventListener('click', function() {
+        document.getElementById('titre').innerHTML = 'Titre modifié par JavaScript !';
+        document.getElementById('intro').innerHTML = 'Ce texte a été injecté via <strong>innerHTML</strong>.';
+      });
+      document.getElementById('btnAfficher').addEventListener('click', function() {
+        let h1 = document.getElementById('titre');
+        document.getElementById('sortie').textContent = h1.outerHTML;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercice 5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      h2 {
+        color: #333;
+      }
+      #formulaireAjout {
+        margin: 20px 0;
+        display: flex;
+        gap: 10px;
+      }
+      #champTache {
+        flex: 1;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+      #btnAjouter {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      #btnAjouter:hover {
+        background-color: #218838;
+      }
+      #listeTaches {
+        list-style: none;
+        padding: 0;
+      }
+      #listeTaches li {
+        background-color: white;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+      }
+      #listeTaches li:hover {
+        transform: translateX(5px);
+      }
+      #listeTaches li span {
+        flex: 1;
+      }
+      #listeTaches li button {
+        padding: 5px 15px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #listeTaches li button:hover {
+        background-color: #c82333;
+      }
+      .date-info {
+        font-size: 0.8em;
+        color: #666;
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Ma liste de tâches</h2>
+    <div id="formulaireAjout">
+      <input type="text" id="champTache" placeholder="Nouvelle tâche..." />
+      <button id="btnAjouter">Ajouter</button>
+    </div>
+    <ul id="listeTaches"></ul>
+
+    <script>
+      const champTache = document.getElementById('champTache');
+      const btnAjouter = document.getElementById('btnAjouter');
+      const listeTaches = document.getElementById('listeTaches');
+      
+      btnAjouter.addEventListener('click', function() {
+        const texte = champTache.value.trim();
+        
+        if (texte === '') {
+          return;
+        }
+        const li = document.createElement('li');
+        li.setAttribute('data-created', new Date().toLocaleDateString());
+        const span = document.createElement('span');
+        span.textContent = texte;
+        const dateSpan = document.createElement('span');
+        dateSpan.className = 'date-info';
+        dateSpan.textContent = `(${li.getAttribute('data-created')})`;
+        span.appendChild(dateSpan);
+        const btnSupprimer = document.createElement('button');
+        btnSupprimer.textContent = 'Supprimer';
+        btnSupprimer.addEventListener('click', function() {
+          listeTaches.removeChild(li);
+        });
+        li.appendChild(span);
+        li.appendChild(btnSupprimer);
+        if (listeTaches.firstChild) {
+          listeTaches.insertBefore(li, listeTaches.firstChild);
+        } else {
+          listeTaches.appendChild(li);
+        }
+        champTache.value = '';
+        champTache.focus();
+      });
+      champTache.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          btnAjouter.click();
+        }
+      });
+    </script>
+  </body>
+</html>

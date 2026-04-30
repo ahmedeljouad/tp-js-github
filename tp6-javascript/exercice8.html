@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercice 8</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+      #app {
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+      header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+      header h1 {
+        margin-bottom: 20px;
+      }
+      #recherche {
+        width: 100%;
+        max-width: 400px;
+        padding: 12px;
+        border: none;
+        border-radius: 25px;
+        font-size: 14px;
+        outline: none;
+      }
+      #formulaireAjout {
+        padding: 30px;
+        background-color: #f8f9fa;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      #formulaireAjout input {
+        flex: 1;
+        min-width: 150px;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+      #formulaireAjout input:focus {
+        border-color: #667eea;
+        outline: none;
+      }
+      #btnAjouter {
+        padding: 12px 30px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
+        transition: background-color 0.3s;
+      }
+      #btnAjouter:hover {
+        background-color: #218838;
+      }
+      #tableau {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0;
+      }
+      #tableau thead {
+        background-color: #343a40;
+        color: white;
+      }
+      #tableau th {
+        padding: 15px;
+        text-align: left;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+      }
+      #tableau th[data-col]:hover {
+        background-color: #495057;
+      }
+      #tableau th[data-ordre="asc"]::after {
+        content: " ▲";
+        font-size: 0.8em;
+      }
+      #tableau th[data-ordre="desc"]::after {
+        content: " ▼";
+        font-size: 0.8em;
+      }
+      #tableau tbody tr {
+        transition: background-color 0.2s;
+      }
+      #tableau tbody tr:nth-child(odd) {
+        background-color: #f8f9fa;
+      }
+      #tableau tbody tr:nth-child(even) {
+        background-color: white;
+      }
+      #tableau tbody tr.surligne {
+        background-color: #e7f3ff !important;
+        transform: scale(1.01);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      #tableau td {
+        padding: 15px;
+        border-bottom: 1px solid #dee2e6;
+      }
+      .mention {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.85em;
+        color: white;
+      }
+      .mention-insuffisant {
+        background-color: #dc3545;
+      }
+      .mention-passable {
+        background-color: #fd7e14;
+      }
+      .mention-assez-bien {
+        background-color: #ffc107;
+      }
+      .mention-bien {
+        background-color: #007bff;
+      }
+      .mention-tres-bien {
+        background-color: #28a745;
+      }
+      .btn-supprimer {
+        padding: 8px 15px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .btn-supprimer:hover {
+        background-color: #c82333;
+      }
+      #statistiques {
+        padding: 30px;
+        background-color: #f8f9fa;
+        border-top: 3px solid #667eea;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .stat {
+        text-align: center;
+      }
+      .stat-valeur {
+        font-size: 2em;
+        font-weight: bold;
+        color: #667eea;
+      }
+      .stat-label {
+        color: #6c757d;
+        font-size: 0.9em;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>Tableau de bord - Étudiants</h1>
+        <input type="text" id="recherche" placeholder="Rechercher un étudiant... (Ctrl+F)" />
+      </header>
+      <div id="formulaireAjout">
+        <input type="text" id="nom" placeholder="Nom" />
+        <input type="text" id="prenom" placeholder="Prénom" />
+        <input type="number" id="note" placeholder="Note /20" min="0" max="20" step="0.5" />
+        <button id="btnAjouter">Ajouter</button>
+      </div>
+      <table id="tableau">
+        <thead>
+          <tr>
+            <th data-col="nom">Nom</th>
+            <th data-col="prenom">Prénom</th>
+            <th data-col="note">Note</th>
+            <th>Mention</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="corpsTableau"></tbody>
+      </table>
+      <footer id="statistiques"></footer>
+    </div>
+    <script>
+      const corpsTableau = document.getElementById('corpsTableau');
+      const statistiques = document.getElementById('statistiques');
+      const recherche = document.getElementById('recherche');
+      let ordreTri = {};
+      function calculerMention(note) {
+        if (note < 10) return { texte: 'Insuffisant', classe: 'mention-insuffisant' };
+        if (note < 12) return { texte: 'Passable', classe: 'mention-passable' };
+        if (note < 14) return { texte: 'Assez Bien', classe: 'mention-assez-bien' };
+        if (note < 16) return { texte: 'Bien', classe: 'mention-bien' };
+        return { texte: 'Très Bien', classe: 'mention-tres-bien' };
+      }
+      function mettreAJourStatistiques() {
+        const lignes = corpsTableau.querySelectorAll('tr');
+        const nbEtudiants = lignes.length;
+        if (nbEtudiants === 0) {
+          statistiques.innerHTML = '<div class="stat"><div class="stat-valeur">0</div><div class="stat-label">Étudiants</div></div>';
+          return;
+        }
+        let somme = 0;
+        let min = 20;
+        let max = 0;
+        lignes.forEach(function(ligne) {
+          const note = parseFloat(ligne.dataset.note);
+          somme += note;
+          if (note < min) min = note;
+          if (note > max) max = note;
+        });
+        const moyenne = (somme / nbEtudiants).toFixed(2);
+        statistiques.innerHTML = `
+          <div class="stat">
+            <div class="stat-valeur">${nbEtudiants}</div>
+            <div class="stat-label">Étudiants</div>
+          </div>
+          <div class="stat">
+            <div class="stat-valeur">${moyenne}</div>
+            <div class="stat-label">Moyenne</div>
+          </div>
+          <div class="stat">
+            <div class="stat-valeur">${max.toFixed(2)}</div>
+            <div class="stat-label">Note max</div>
+          </div>
+          <div class="stat">
+            <div class="stat-valeur">${min.toFixed(2)}</div>
+            <div class="stat-label">Note min</div>
+          </div>
+        `;
+      }
+      function ajouterEtudiant() {
+        const nom = document.getElementById('nom').value.trim();
+        const prenom = document.getElementById('prenom').value.trim();
+        const note = parseFloat(document.getElementById('note').value);
+        
+        if (!nom || !prenom || isNaN(note) || note < 0 || note > 20) {
+          alert('Veuillez remplir tous les champs correctement');
+          return;
+        }
+        const tr = document.createElement('tr');
+        tr.dataset.nom = nom;
+        tr.dataset.prenom = prenom;
+        tr.dataset.note = note;
+        const mention = calculerMention(note);
+        tr.innerHTML = `
+          <td>${nom}</td>
+          <td>${prenom}</td>
+          <td>${note.toFixed(2)}</td>
+          <td><span class="mention ${mention.classe}">${mention.texte}</span></td>
+          <td><button class="btn-supprimer">Supprimer</button></td>
+        `;
+        tr.addEventListener('mouseenter', function() {
+          this.classList.add('surligne');
+        });
+        tr.addEventListener('mouseleave', function() {
+          this.classList.remove('surligne');
+        });
+        tr.querySelector('.btn-supprimer').addEventListener('click', function() {
+          corpsTableau.removeChild(tr);
+          mettreAJourStatistiques();
+        });
+        corpsTableau.appendChild(tr);
+        document.getElementById('nom').value = '';
+        document.getElementById('prenom').value = '';
+        document.getElementById('note').value = '';
+        document.getElementById('nom').focus();
+        mettreAJourStatistiques();
+       }
+      document.getElementById('btnAjouter').addEventListener('click', ajouterEtudiant);
+      recherche.addEventListener('input', function() {
+        const terme = this.value.toLowerCase();
+        const lignes = corpsTableau.querySelectorAll('tr');
+        
+        lignes.forEach(function(ligne) {
+          const nom = ligne.dataset.nom.toLowerCase();
+          const prenom = ligne.dataset.prenom.toLowerCase();
+          
+          if (nom.includes(terme) || prenom.includes(terme)) {
+            ligne.style.display = '';
+          } else {
+            ligne.style.display = 'none';
+          }
+        });
+      });
+      
+      window.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'f') {
+          e.preventDefault();
+          recherche.focus();
+        }
+        if (e.key === 'Escape') {
+          recherche.value = '';
+          const lignes = corpsTableau.querySelectorAll('tr');
+          lignes.forEach(function(ligne) {
+            ligne.style.display = '';
+          });
+        }
+      });
+      document.querySelectorAll('#tableau th[data-col]').forEach(function(th) {
+        th.addEventListener('click', function() {
+          const colonne = this.dataset.col;
+          const lignes = Array.from(corpsTableau.querySelectorAll('tr'));
+          let ordre = 'asc';
+          if (this.dataset.ordre === 'asc') {
+            ordre = 'desc';
+          }
+          document.querySelectorAll('#tableau th[data-col]').forEach(function(h) {
+            delete h.dataset.ordre;
+          });
+          this.dataset.ordre = ordre;
+          lignes.sort(function(a, b) {
+            let valeurA = a.dataset[colonne];
+            let valeurB = b.dataset[colonne];
+            if (colonne === 'note') {
+              valeurA = parseFloat(valeurA);
+              valeurB = parseFloat(valeurB);
+            } else {
+              valeurA = valeurA.toLowerCase();
+              valeurB = valeurB.toLowerCase();
+            }
+            if (ordre === 'asc') {
+              return valeurA > valeurB ? 1 : -1;
+            } else {
+              return valeurA < valeurB ? 1 : -1;
+            }
+          });
+          lignes.forEach(function(ligne) {
+            corpsTableau.appendChild(ligne);
+          });
+        });
+      });
+      mettreAJourStatistiques();
+    </script>
+  </body>
+</html>

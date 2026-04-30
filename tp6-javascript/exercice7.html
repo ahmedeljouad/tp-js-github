@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercice 7</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      #zone {
+        position: relative;
+        width: 600px;
+        height: 400px;
+        background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: none;
+        margin: 20px auto;
+      }
+      #curseur {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #e94560;
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        transition: width 0.1s, height 0.1s;
+      }
+      #coordonnees {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        color: white;
+        font-family: monospace;
+        font-size: 14px;
+      }
+      .etincelle {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background: #ffd700;
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        animation: sparkle 0.5s ease-out;
+      }
+      @keyframes sparkle {
+        0% {
+          transform: translate(-50%, -50%) scale(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(2);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Zone interactive avec curseur personnalisé</h2>
+    <div id="zone">
+      <div id="curseur"></div>
+      <p id="coordonnees">Déplacez votre souris ici.</p>
+    </div>
+    <script>
+      const zone = document.getElementById('zone');
+      const curseur = document.getElementById('curseur');
+      const coordonnees = document.getElementById('coordonnees');
+      zone.addEventListener('mousemove', function(e) {
+        curseur.style.left = e.offsetX + 'px';
+        curseur.style.top = e.offsetY + 'px';
+        coordonnees.textContent = `X : ${e.offsetX} | Y : ${e.offsetY} | Page : (${e.pageX}, ${e.pageY})`;
+      });
+      zone.addEventListener('mouseenter', function() {
+        curseur.style.width = '30px';
+        curseur.style.height = '30px';
+      });
+      zone.addEventListener('mouseleave', function() {
+        curseur.style.width = '20px';
+        curseur.style.height = '20px';
+        coordonnees.textContent = 'Déplacez votre souris ici.';
+      });
+      zone.addEventListener('click', function(e) {
+        const etincelle = document.createElement('span');
+        etincelle.className = 'etincelle';
+        etincelle.style.left = e.offsetX + 'px';
+        etincelle.style.top = e.offsetY + 'px';
+        zone.appendChild(etincelle);
+        setTimeout(function() {
+          zone.removeChild(etincelle);
+        }, 500);
+      });
+    </script>
+  </body>
+</html>

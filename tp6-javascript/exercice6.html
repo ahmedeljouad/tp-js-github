@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercice 6</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      h2 {
+        color: #333;
+      }
+      #afficheur {
+        background-color: #e9ecef;
+        padding: 30px;
+        border-radius: 10px;
+        margin: 20px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s;
+      }
+      #afficheur p {
+        margin: 10px 0;
+        font-size: 16px;
+      }
+      .touche-info {
+        font-weight: bold;
+        color: #007bff;
+        font-size: 24px;
+      }
+      .modificateur {
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 0 5px;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+      .actif {
+        background-color: #28a745;
+        color: white;
+      }
+      .inactif {
+        background-color: #6c757d;
+        color: white;
+      }
+      #historique {
+        margin-top: 30px;
+      }
+      #listeHistorique {
+        list-style: none;
+        padding: 0;
+      }
+      #listeHistorique li {
+        background-color: white;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+        border-left: 4px solid #007bff;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Détecteur de touches</h2>
+    <p>Appuyez sur n'importe quelle touche du clavier.</p>
+    <div id="afficheur">
+      <p>Aucune touche détenue.</p>
+    </div>
+    <div id="historique">
+      <h3>Historique des 5 dernières touches</h3>
+      <ul id="listeHistorique"></ul>
+    </div>
+    <script>
+      const afficheur = document.getElementById('afficheur');
+      const listeHistorique = document.getElementById('listeHistorique');
+      let historique = [];
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          afficheur.innerHTML = '<p>Aucune touche détenue.</p>';
+          historique = [];
+          listeHistorique.innerHTML = '';
+          afficheur.style.backgroundColor = '#e9ecef';
+          return;
+        }
+        const shift = e.shiftKey ? 'actif' : 'inactif';
+        const ctrl = e.ctrlKey ? 'actif' : 'inactif';
+        const alt = e.altKey ? 'actif' : 'inactif';
+        
+        afficheur.innerHTML = `
+          <p class="touche-info">Touche : ${e.key}</p>
+          <p>Code : ${e.code}</p>
+          <p>
+            <span class="modificateur ${shift}">Shift</span>
+            <span class="modificateur ${ctrl}">Ctrl</span>
+            <span class="modificateur ${alt}">Alt</span>
+          </p>
+        `;
+        if (e.key.length === 1 && e.key.match(/[a-zA-Z0-9]/)) {
+          afficheur.style.backgroundColor = '#cfe2ff';
+        } else if (e.key.match(/^F\d+$/)) {
+          afficheur.style.backgroundColor = '#d1e7dd';
+        } else if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          afficheur.style.backgroundColor = '#e2d9f3';
+        } else {
+          afficheur.style.backgroundColor = '#e9ecef';
+        }
+        historique.unshift(`${e.key} (${e.code})`);
+        if (historique.length > 5) {
+          historique.pop();
+        }
+        listeHistorique.innerHTML = '';
+        historique.forEach(function(item) {
+          const li = document.createElement('li');
+          li.textContent = item;
+          listeHistorique.appendChild(li);
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercice 3</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      #liste {
+        list-style: none;
+        padding: 0;
+      }
+      #liste li {
+        padding: 15px;
+        margin: 10px 0;
+        background-color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      #liste li:hover {
+        transform: translateX(10px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      #resultat {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #e7f3ff;
+        border-left: 4px solid #007bff;
+        border-radius: 5px;
+        min-height: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Liste de produits</h1>
+    <ul id="liste">
+      <li data-prix="12.50" data-stock="8">Stylo rouge</li>
+      <li data-prix="45.00" data-stock="0">Carnet premium</li>
+      <li data-prix="3.99" data-stock="25">Gomme</li>
+      <li data-prix="8.20" data-stock="2">Règle 30cm</li>
+    </ul>
+    <p id="resultat"></p>
+    <script>
+      const items = document.querySelectorAll('#liste li');
+      items.forEach(function(li) {
+        li.dataset.nbClics = '0';
+        li.addEventListener('click', function() {
+          const nom = this.textContent;
+          const prix = this.dataset.prix;
+          const stock = parseInt(this.dataset.stock);
+          let nbClics = parseInt(this.dataset.nbClics);
+          nbClics++;
+          this.dataset.nbClics = nbClics;
+          if (stock === 0) {
+            this.style.color = 'red';
+          } else if (stock <= 3) {
+            this.style.color = 'orange';
+          } else {
+            this.style.color = 'green';
+          }
+          let message = `Produit : ${nom} | Prix : ${prix}€ | Stock : ${stock} unités`;
+          if (stock === 0) {
+            message += ' (Rupture de stock)';
+          }
+          message += ` | Clics : ${nbClics}`;
+          document.getElementById('resultat').textContent = message;
+        });
+      });
+    </script>
+  </body>
+</html>

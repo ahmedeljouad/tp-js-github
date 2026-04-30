@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercice 4</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      #carte {
+        width: 300px;
+        padding: 20px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin-bottom: 20px;
+      }
+      .surligne {
+        background-color: #fff3cd;
+        border-color: #ffc107;
+        transform: scale(1.03);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+      .sombre {
+        background-color: #1e1e1e;
+        color: #f0f0f0;
+        border-color: #555;
+      }
+      button {
+        margin: 5px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="carte">
+      <h2>Carte interactive</h2>
+      <p>Survolez cette carte pour la mettre en évidence.</p>
+    </div>
+    <button id="btnSombre">Mode sombre</button>
+    <button id="btnReset">Réinitialiser</button>
+
+    <script>
+      const carte = document.getElementById('carte');
+      
+      carte.addEventListener('mouseenter', function() {
+        this.classList.add('surligne');
+      });
+      
+      carte.addEventListener('mouseleave', function() {
+        this.classList.remove('surligne');
+      });
+      
+      document.getElementById('btnSombre').addEventListener('click', function() {
+        carte.classList.toggle('sombre');
+      });
+      
+      document.getElementById('btnReset').addEventListener('click', function() {
+        carte.className = '';
+      });
+    </script>
+  </body>
+</html>
